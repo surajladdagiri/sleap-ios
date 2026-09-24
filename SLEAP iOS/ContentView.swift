@@ -11,6 +11,7 @@ import UIKit
 struct ContentView: View {
     private static let OriginalImage = UIImage(named: "reference.png")
     private static let OriginalRenderedImage = UIImage(named: "reference_overlay.png")
+    @State private var ErrorMessage: String = "Image could not be Loaded"
     @State private var DisplayedImage: UIImage? = ContentView.OriginalImage
     
     
@@ -27,15 +28,41 @@ struct ContentView: View {
                                 .strokeBorder(Color.green, lineWidth: 4)
                     )
             }else {
-                Text("Image could not be loaded")
+                Text(ErrorMessage)
             }
 
             HStack(spacing: 16) {
                 Button("Render") {
+                    
+                    guard let url = Bundle.main.url(
+                        forResource: "reference",
+                        withExtension: "json"
+                    ) else {
+                        ErrorMessage = "reference.json was not found."
+                        DisplayedImage = nil
+                        return
+                    }
+                    
+                    
+                    do {
+                        let data = try Data(contentsOf: url)
+                        
+                        let prediction = try JSONDecoder().decode(
+                            PosePrediction.self,
+                            from: data
+                        )
+                        
+                    } catch {
+                        ErrorMessage = "Unable to decode JSON"
+                        DisplayedImage = nil
+                    }
+                    
+                    
                     guard let original = Self.OriginalImage else {
                         DisplayedImage = nil
                         return
                     }
+                    
                     DisplayedImage = PoseRenderer().render(image: original)
                 }
                 Button("Reference"){
