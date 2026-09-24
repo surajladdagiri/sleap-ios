@@ -1,0 +1,95 @@
+{
+  "anchor_part": "thorax",
+  "backbone": "centroid:unet;centered_instance:unet",
+  "checkpoint_path": "centroid:models/centroid/best.ckpt;centered_instance:models/centered_instance/best.ckpt",
+  "class_names": null,
+  "crop_size": [
+    160,
+    160
+  ],
+  "edge_inds": [
+    [
+      0,
+      11
+    ],
+    [
+      0,
+      12
+    ],
+    [
+      1,
+      0
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      1,
+      7
+    ],
+    [
+      1,
+      8
+    ],
+    [
+      1,
+      9
+    ],
+    [
+      1,
+      10
+    ]
+  ],
+  "export_format": "onnx",
+  "export_timestamp": "2026-09-24T11:25:26.272034",
+  "input_channels": 1,
+  "input_dtype": "uint8",
+  "input_scale": 0.5,
+  "max_batch_size": 8,
+  "max_instances": 2,
+  "max_peaks_per_node": null,
+  "model_name": "centroid+centered_instance",
+  "model_type": "topdown",
+  "n_classes": null,
+  "n_edges": 12,
+  "n_nodes": 13,
+  "node_names": [
+    "head",
+    "thorax",
+    "abdomen",
+    "wingL",
+    "wingR",
+    "forelegL4",
+    "forelegR4",
+    "midlegL4",
+    "midlegR4",
+    "hindlegL4",
+    "hindlegR4",
+    "eyeL",
+    "eyeR"
+  ],
+  "normalization": "0_to_1",
+  "output_stride": 4,
+  "peak_threshold": 0.2,
+  "precision": "fp32",
+  "sleap_nn_version": "0.3.3",
+  "training_config_embedded": true,
+  "training_config_hash": "centroid:42513920beb8cd1db723c17b66b538eea4041d69d252f087087cfa71e6b8b130;centered_instance:6d53cdf9a63c02406f81960377d6f7653f08a3929f557ed801c967716f2068a6"
+}

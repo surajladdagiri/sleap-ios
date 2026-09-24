@@ -6,6 +6,11 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		44FC68E93065CDEA005654DF /* onnxruntime in Frameworks */ = {isa = PBXBuildFile; productRef = 44FC68E83065CDEA005654DF /* onnxruntime */; };
+		44FC68EB3065CDEA005654DF /* onnxruntime_extensions in Frameworks */ = {isa = PBXBuildFile; productRef = 44FC68EA3065CDEA005654DF /* onnxruntime_extensions */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		44FC68B53064C5EF005654DF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -50,12 +55,19 @@
 			path = Reference;
 			sourceTree = "<group>";
 		};
+		44FC68EC3065CDF9005654DF /* Model */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		44FC68A43064C5ED005654DF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				44FC68EB3065CDEA005654DF /* onnxruntime_extensions in Frameworks */,
+				44FC68E93065CDEA005654DF /* onnxruntime in Frameworks */,
 			);
 		};
 		44FC68B13064C5EF005654DF /* Frameworks */ = {
@@ -74,6 +86,7 @@
 		44FC689E3064C5ED005654DF = {
 			isa = PBXGroup;
 			children = (
+				44FC68EC3065CDF9005654DF /* Model */,
 				44FC68CF3065B16A005654DF /* Reference */,
 				44FC68A93064C5ED005654DF /* SLEAP iOS */,
 				44FC68B73064C5EF005654DF /* SLEAP iOSTests */,
@@ -108,8 +121,13 @@
 			fileSystemSynchronizedGroups = (
 				44FC68A93064C5ED005654DF /* SLEAP iOS */,
 				44FC68CF3065B16A005654DF /* Reference */,
+				44FC68EC3065CDF9005654DF /* Model */,
 			);
 			name = "SLEAP iOS";
+			packageProductDependencies = (
+				44FC68E83065CDEA005654DF /* onnxruntime */,
+				44FC68EA3065CDEA005654DF /* onnxruntime_extensions */,
+			);
 			productName = "SLEAP iOS";
 			productReference = 44FC68A73064C5ED005654DF /* SLEAP iOS.app */;
 			productType = "com.apple.product-type.application";
@@ -188,6 +206,9 @@
 			);
 			mainGroup = 44FC689E3064C5ED005654DF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				44FC68E73065CDEA005654DF /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 44FC68A83064C5ED005654DF /* Products */;
 			projectDirPath = "";
@@ -555,6 +576,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		44FC68E73065CDEA005654DF /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/microsoft/onnxruntime-swift-package-manager";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.24.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		44FC68E83065CDEA005654DF /* onnxruntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 44FC68E73065CDEA005654DF /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */;
+			productName = onnxruntime;
+		};
+		44FC68EA3065CDEA005654DF /* onnxruntime_extensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 44FC68E73065CDEA005654DF /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */;
+			productName = onnxruntime_extensions;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 44FC689F3064C5ED005654DF /* Project object */;
 	validationLevel = 1;
