@@ -9,79 +9,27 @@ import SwiftUI
 import UIKit
 
 struct ContentView: View {
-    private static let OriginalImage = UIImage(named: "reference.png")
-    private static let OriginalRenderedImage = UIImage(named: "reference_overlay.png")
-    @State private var ErrorMessage: String = "Unable to load image"
-    @State private var DisplayedImage: UIImage? = ContentView.OriginalImage
-    
-    
     var body: some View {
-        VStack(spacing: 20) {
-            
-            if let DisplayedImage{
-                Image(uiImage: DisplayedImage)
-                    .resizable()
-                    .scaledToFit()
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .strokeBorder(Color.green, lineWidth: 4)
-                    )
-            }else {
-                Text(ErrorMessage)
+        NavigationStack{
+            VStack(spacing: 20) {
+                NavigationLink{
+                    RenderTestView()
+                } label: {
+                    Text("Renderer Test")
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+                
+                NavigationLink{
+                    PredictionTestView()
+                } label: {
+                    Text("Prediction Test")
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
             }
-
-            HStack(spacing: 16) {
-                Button("Render") {
-                    
-                    guard let original = Self.OriginalImage else {
-                        DisplayedImage = nil
-                        ErrorMessage = "Unable to load image"
-                        return
-                    }
-                    
-                    guard let url = Bundle.main.url(
-                        forResource: "reference",
-                        withExtension: "json"
-                    ) else {
-                        ErrorMessage = "reference.json was not found."
-                        DisplayedImage = nil
-                        return
-                    }
-                    
-                    
-                    do {
-                        let data = try Data(contentsOf: url)
-                        
-                        let prediction = try JSONDecoder().decode(
-                            PosePrediction.self,
-                            from: data
-                        )
-                        
-                        DisplayedImage = PoseRenderer().render(image: original, prediction: prediction)
-                        
-                    } catch {
-                        ErrorMessage = "Unable to decode JSON"
-                        DisplayedImage = nil
-                    }
-                    
-                    
-                    
-                    
-                    
-                }
-                Button("Reference"){
-                    DisplayedImage = Self.OriginalRenderedImage
-                }
-
-                Button("Reset") {
-                    DisplayedImage = Self.OriginalImage
-                    ErrorMessage = "Unable to load image"
-                }
-            }
-            .buttonStyle(.bordered)
+            .padding()
         }
-        .padding()
     }
 }
 
