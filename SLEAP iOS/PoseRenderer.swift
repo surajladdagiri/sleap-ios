@@ -14,7 +14,7 @@ struct PoseRenderer{
     
     //isolate UI updates
     @MainActor
-    func render(image: UIImage) -> UIImage?{
+    func render(image: UIImage, prediction: PosePrediction) -> UIImage?{
         let content = Image(uiImage: image)
             .resizable()
             .frame(
@@ -23,20 +23,48 @@ struct PoseRenderer{
             )
             .overlay {
                 Canvas { context, size in
-                    let radius: CGFloat = 10
+                    let scaleX = size.width / CGFloat(prediction.imageWidth)
+                    let scaleY = size.height / CGFloat(prediction.imageHeight)
                     
-                    let dot = CGRect(
-                        x: size.width / 2 - radius,
-                        y: size.height/2 - radius,
-                        width: radius * 2,
-                        height: radius * 2
-                    )
+                    let colors: [Color] = [.cyan, .orange]
+                    let radius: CGFloat = 3
                     
-                    context.fill(
-                        Path(ellipseIn: dot),
-                        with: .color(.red)
-                    )
+                   
                     
+                    
+                    
+                    
+                    //Add in the points
+                    for (index, instance) in prediction.instances.enumerated() {
+                        let color = colors[index % colors.count]
+                        
+                        //check if point is valid
+                        for optionalPoint in instance.points {
+                            guard let point = optionalPoint,
+                                  point.x.isFinite,
+                                  point.y.isFinite else {
+                                continue
+                            }
+                            
+                            //Map points back to the image
+                            let x = CGFloat(point.x) * scaleX
+                            let y = CGFloat(point.y) * scaleY
+                            
+                            //Determine bounds of the points
+                            let bounds = CGRect(
+                                x: x - radius,
+                                y: y - radius,
+                                width: radius * 2.0,
+                                height: radius * 2.0
+                            )
+                            
+                            //Draw in points
+                            context.fill(
+                                Path(ellipseIn: bounds),
+                                with: .color(color)
+                            )
+                        }
+                    }
                 }
             }
         
