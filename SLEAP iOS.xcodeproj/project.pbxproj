@@ -45,6 +45,11 @@
 			path = "SLEAP iOSUITests";
 			sourceTree = "<group>";
 		};
+		44FC68CF3065B16A005654DF /* Reference */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Reference;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +74,7 @@
 		44FC689E3064C5ED005654DF = {
 			isa = PBXGroup;
 			children = (
+				44FC68CF3065B16A005654DF /* Reference */,
 				44FC68A93064C5ED005654DF /* SLEAP iOS */,
 				44FC68B73064C5EF005654DF /* SLEAP iOSTests */,
 				44FC68C13064C5EF005654DF /* SLEAP iOSUITests */,
@@ -101,6 +107,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				44FC68A93064C5ED005654DF /* SLEAP iOS */,
+				44FC68CF3065B16A005654DF /* Reference */,
 			);
 			name = "SLEAP iOS";
 			productName = "SLEAP iOS";
