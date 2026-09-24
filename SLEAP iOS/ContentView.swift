@@ -9,16 +9,16 @@ import SwiftUI
 import UIKit
 
 struct ContentView: View {
-    private static let originalImage = UIImage(named: "reference.png")
-    private static let originalRenderedImage = UIImage(named: "reference_overlay.png")
-    @State private var displayedImage: UIImage? = ContentView.originalImage
+    private static let OriginalImage = UIImage(named: "reference.png")
+    private static let OriginalRenderedImage = UIImage(named: "reference_overlay.png")
+    @State private var DisplayedImage: UIImage? = ContentView.OriginalImage
     
     
     var body: some View {
         VStack(spacing: 20) {
             
-            if let displayedImage{
-                Image(uiImage: displayedImage)
+            if let DisplayedImage{
+                Image(uiImage: DisplayedImage)
                     .resizable()
                     .scaledToFit()
                     .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -31,15 +31,19 @@ struct ContentView: View {
             }
 
             HStack(spacing: 16) {
-                Button("Draw Points") {
-                        
+                Button("Render") {
+                    guard let original = Self.OriginalImage else {
+                        DisplayedImage = nil
+                        return
+                    }
+                    DisplayedImage = PoseRenderer().render(image: original)
                 }
                 Button("Reference"){
-                    displayedImage = Self.originalRenderedImage
+                    DisplayedImage = Self.OriginalRenderedImage
                 }
 
                 Button("Reset") {
-                    displayedImage = Self.originalImage
+                    DisplayedImage = Self.OriginalImage
                 }
             }
             .buttonStyle(.bordered)
