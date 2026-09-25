@@ -19,13 +19,6 @@ A SwiftUI prototype that runs a trained fly pose model locally using ONNX Runtim
 - **On-device inference:** Use ONNX Runtime's Core ML execution provider without a server.
 
 
-<table align="center"> 
-  <tr> 
-    <td align="center"><img src="Demos/home.PNG" width="220"><br><sub>Renderer Test</sub></td> 
-    <td align="center"><img src="Demos/inference.PNG" width="220"><br><sub>Prediction Test</sub></td> 
-    <td align="center"><img src="Demos/video.PNG" width="220"><br><sub>Video Test</sub></td> 
-  </tr> 
-</table>
 
 ## Run it
 
