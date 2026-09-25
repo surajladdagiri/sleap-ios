@@ -78,6 +78,39 @@ The counter includes frame conversion, preprocessing, inference, decoding, and r
 - Live camera inference, importing media, and exporting annotated videos are future work.
 - Core ML acceleration is provided through ONNX Runtime; there is no standalone Core ML or custom Metal backend yet.
 
+
+## Download an IPA
+
+Unsigned IPA builds are available on the
+[Releases page](https://github.com/surajladdagiri/sleap-ios/releases). These builds require signing before installation. For the simpler installation option, use the [TestFlight link](https://testflight.apple.com/join/tQRBwW7R).
+
+### Sign and install with Sideloadly
+
+You can sign and install the ipa it using
+[Sideloadly](https://sideloadly.io/) on macOS or Windows with your own
+Apple Account. A paid developer account is not required.
+
+1. Download `SLEAP-iOS.ipa` from the Releases page.
+2. Install Sideloadly from its official website.
+3. If not already enabled, enable **Developer Mode** on your iPhone or iPad under **Settings → Privacy & Security** then restart and confirm when prompted.
+4. Connect your device to your computer, unlock it, and accept
+   the **Trust This Computer** prompt if shown.
+5. Open Sideloadly, select your device, and drag the IPA into its window.
+6. Enter your Apple Account and click **Start**. Complete any
+   authentication prompts to sign and install the app.
+7. If prompted on your device, trust your developer profile under
+   **Settings → General → VPN & Device Management**.
+8. Open **SLEAP iOS**.
+
+With a free Apple Account, the signing expires after seven days.
+Re-sign the app or configure Sideloadly's automatic refresh.
+
+Your device must meet the build's minimum iOS/iPadOS requirement.
+Signing does not make the app compatible with older OS versions.
+
+For installation without handling signing yourself, use
+[TestFlight](https://testflight.apple.com/join/tQRBwW7R).
+
 ## Credits
 
 Built on the [SLEAP](https://github.com/talmolab/sleap) ecosystem from Talmo Lab: [SLEAP-NN](https://github.com/talmolab/sleap-nn) for training/export and [SLEAP-IO](https://github.com/talmolab/sleap-io) for Python reference visualization. Inference uses [ONNX Runtime](https://github.com/microsoft/onnxruntime).
