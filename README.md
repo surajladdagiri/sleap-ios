@@ -8,8 +8,7 @@ A SwiftUI prototype that runs a trained fly pose model locally using ONNX Runtim
 
 ![Video inference demo](Demos/video.gif)
 
-
-**[Try it on TestFlight](https://testflight.apple.com/join/tQRBwW7R)**  
+**[Try it on TestFlight (Link will work after Apple Approval)](https://testflight.apple.com/join/tQRBwW7R)**
 
 ## What it does
 
@@ -53,14 +52,12 @@ Preprocessing, inference, and rendering are separate components. An actor-based 
 ## Performance
 
 
-| Device | Processing FPS |
-| --- | --- |
-| iPhone 15 Pro Max | 17 |
-| iPad Pro 11-inch, M1 | 14 |
+| Device | iOS Version | Peak FPS |
+| --- | --- | ---
+| iPhone 15 Pro Max |27.0 | 17 |
+| iPad Pro 11-inch, M1 | 27.0 | 14 |
 
 The counter includes frame conversion, preprocessing, inference, decoding, and rendering. It measures processing throughput, not the video's source frame rate or screen refresh rate.
-
-Record results using the same clip and a Release build on each device; include the OS version and sustained performance after warm-up.
 
 ## Current scope
 
