@@ -1,0 +1,102 @@
+name: Build unsigned IPA
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: unsigned-ipa-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: xcode-27
+    timeout-minutes: 45
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          persist-credentials: false
+
+      - name: Show Xcode version
+        run: |
+          xcodebuild -version
+          xcodebuild -showsdks
+
+      - name: Check required files
+        run: |
+          test -f "SLEAP iOS.xcodeproj/xcshareddata/xcschemes/SLEAP iOS.xcscheme"
+          test -s "Model/model.onnx"
+          test -s "Model/export_metadata.json"
+          test -s "Model/fly_clip.mp4"
+
+      - name: Archive without signing
+        run: |
+          xcodebuild archive \
+            -project "SLEAP iOS.xcodeproj" \
+            -scheme "SLEAP iOS" \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            -archivePath "$RUNNER_TEMP/SLEAP-iOS.xcarchive" \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
+
+      - name: Package unsigned IPA
+        run: |
+          APP_PATH="$RUNNER_TEMP/SLEAP-iOS.xcarchive/Products/Applications/SLEAP iOS.app"
+          PACKAGE_PATH="$RUNNER_TEMP/ipa-package"
+
+          test -d "$APP_PATH"
+
+          mkdir -p "$PACKAGE_PATH/Payload"
+          mkdir -p "$GITHUB_WORKSPACE/dist"
+
+          ditto "$APP_PATH" "$PACKAGE_PATH/Payload/SLEAP iOS.app"
+
+          cd "$PACKAGE_PATH"
+
+          zip -qry \
+            "$GITHUB_WORKSPACE/dist/SLEAP-iOS.ipa" \
+            Payload
+
+          unzip -t "$GITHUB_WORKSPACE/dist/SLEAP-iOS.ipa"
+
+      - name: Save downloadable build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SLEAP-iOS
+          path: dist/SLEAP-iOS.ipa
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Publish GitHub release asset
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$RELEASE_TAG" > /dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" \
+              dist/SLEAP-iOS.ipa \
+              --clobber
+          else
+            gh release create "$RELEASE_TAG" \
+              dist/SLEAP-iOS.ipa \
+              --verify-tag \
+              --title "SLEAP iOS $RELEASE_TAG" \
+              --notes "Unsigned iOS build. Signing is required before installation."
+          fi
