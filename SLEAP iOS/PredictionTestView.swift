@@ -18,6 +18,7 @@ struct PredictionTestView: View {
     @State private var modelStatus = "Model not loaded"
     
     
+    
     var body: some View {
         VStack(spacing: 20) {
             
@@ -60,12 +61,9 @@ struct PredictionTestView: View {
                             } else {
                                 activeEstimator = ONNXPoseEstimator(modelURL: modelURL)
                             }
-                            let info = try await activeEstimator.modelInterface()
+                            _ = try await activeEstimator.modelInterface()
                             
                             estimator = activeEstimator
-                            print("Inputs:", info.inputNames)
-                            print("Outputs:", info.outputNames)
-                            
                             
                             guard let original = Self.OriginalImage,
                                   let input = Preprocessor().prepare(image: original) else {

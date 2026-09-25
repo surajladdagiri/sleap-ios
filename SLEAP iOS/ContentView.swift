@@ -27,6 +27,14 @@ struct ContentView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
+                
+                NavigationLink{
+                    VideoTestView()
+                } label: {
+                    Text("Video Test")
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
             }
             .padding()
         }

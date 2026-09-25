@@ -33,7 +33,16 @@ actor ONNXPoseEstimator: PoseEstimator {
         
         let environment = try ORTEnv(loggingLevel: .warning)
         
-        let session = try ORTSession(env: environment, modelPath: modelURL.path, sessionOptions: nil)
+        let options = try ORTSessionOptions()
+
+        try options.appendCoreMLExecutionProvider(
+            withOptionsV2: [
+                "ModelFormat": "MLProgram",
+                "MLComputeUnits": "ALL"
+            ]
+        )
+        
+        let session = try ORTSession(env: environment, modelPath: modelURL.path, sessionOptions: options)
         
         self.environment = environment
         self.session = session
