@@ -12,4 +12,6 @@ struct PoseModelInterface: Sendable {
 
 protocol PoseEstimator: Actor {
     func modelInterface() async throws -> PoseModelInterface
+    
+    func predict(input: PoseInput, skeleton: PoseSkeleton) async throws -> PosePrediction
 }

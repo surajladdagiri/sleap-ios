@@ -63,13 +63,47 @@ struct PredictionTestView: View {
                             let info = try await activeEstimator.modelInterface()
                             
                             estimator = activeEstimator
-                            modelStatus = "Model Loaded"
                             print("Inputs:", info.inputNames)
                             print("Outputs:", info.outputNames)
                             
                             
+                            guard let original = Self.OriginalImage,
+                                  let input = Preprocessor().prepare(image: original) else {
+                                modelStatus = "Preprocessing failed"
+                                return
+                            }
+                            
+                            guard let metadataURL = Bundle.main.url(
+                                forResource: "export_metadata",
+                                withExtension: "json"
+                            ) else {
+                                modelStatus = "export_metadata.json was not found."
+                                return
+                            }
+                            let metadataData = try Data(contentsOf: metadataURL)
+                            let skeleton = try JSONDecoder().decode(
+                                PoseSkeleton.self,
+                                from: metadataData
+                            )
+                            
+                            
+                            modelStatus = "Running inference..."
+                           
+                            let prediction = try await activeEstimator.predict(input: input,skeleton: skeleton)
+                            
+                            DisplayedImage = PoseRenderer().render(image: original,prediction: prediction)
+                            
+                            if DisplayedImage == nil {
+                                ErrorMessage = "Could not render the prediction"
+                                modelStatus = "Rendering failed."
+                            } else {
+                                modelStatus = "Inference completed"
+                            }
+                            
+                            
                         } catch {
-                            modelStatus = "Model loading failed: \(error.localizedDescription)"
+                            modelStatus = "Model failed: \(error.localizedDescription)"
+                            print("Prediction error:", error as NSError)
                         }
                     
                     }
@@ -86,6 +120,7 @@ struct PredictionTestView: View {
                     modelStatus = "Model not loaded"
                     ErrorMessage = "Unable to load image"
                 }
+                .disabled(isBusy)
             }
             .buttonStyle(.bordered)
         }
