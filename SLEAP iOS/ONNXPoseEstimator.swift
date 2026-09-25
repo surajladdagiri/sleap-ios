@@ -38,7 +38,8 @@ actor ONNXPoseEstimator: PoseEstimator {
         try options.appendCoreMLExecutionProvider(
             withOptionsV2: [
                 "ModelFormat": "MLProgram",
-                "MLComputeUnits": "ALL"
+                "MLComputeUnits": "ALL",
+                "SpecializationStrategy": "FastPrediction"
             ]
         )
         
