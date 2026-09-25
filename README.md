@@ -10,6 +10,18 @@ A SwiftUI prototype that runs a trained fly pose model locally using ONNX Runtim
 
 **[Try it on TestFlight (Link will work after Apple Approval)](https://testflight.apple.com/join/tQRBwW7R)**
 
+
+## Training and model export
+
+The Python notebook covers dataset preparation, training, evaluation,
+ONNX export, and preparing the model and reference predictions for iOS.
+
+- [View the notebook](python/training_demo_jupyter.ipynb)
+- [Python setup and workflow](python/README.md)
+
+Python is only needed to reproduce or modify the model workflow.
+The iOS app includes the trained model and runs independently.
+
 ## What it does
 
 - **Renderer Test:** Draw saved predictions over a reference image and compare with the Python reference overlay.

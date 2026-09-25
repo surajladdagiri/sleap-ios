@@ -1,0 +1,18 @@
+# Nested repository metadata backup
+/python-git-backup/
+
+# Local Python environment and caches
+python/.venv/
+python/.ipynb_checkpoints/
+**/__pycache__/
+*.pyc
+.DS_Store
+
+# Downloaded data and generated outputs
+python/*.slp
+python/*.mp4
+python/*.zip
+python/sample_*.png
+python/models/
+python/exports/
+python/ios_reference/
